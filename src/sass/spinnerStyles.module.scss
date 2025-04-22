@@ -1,0 +1,58 @@
+@import "./mixins.scss";
+@import "./variables.scss";
+
+.container {
+  @include flexProp(column, 2rem, center, center);
+  height: 100vh;
+
+  .logo {
+    max-width: 15%;
+    animation: hoverAnimate 4s ease-in-out infinite;
+  }
+
+  .loader {
+    position: relative;
+    width: 15%;
+    height: 0.3rem;
+    background-color: $number2Bg;
+    border-radius: 5px;
+    border: none;
+
+    &::after {
+      content: "";
+      position: absolute;
+      height: 100%;
+      width: 0%;
+      background-color: $boardBg;
+      border-radius: 5px;
+      animation: progressBar 5s ease-in-out forwards;
+    }
+  }
+}
+
+@keyframes progressBar {
+  0% {
+    width: 0%;
+  }
+  30% {
+    width: 50%;
+  }
+  50% {
+    width: 70%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes hoverAnimate {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-0.5rem);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}

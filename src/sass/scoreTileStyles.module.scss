@@ -1,0 +1,32 @@
+@import "../sass/variables.scss";
+@import "../sass/mixins.scss";
+
+.container {
+  @include ButtonProp;
+  width: 5.5rem;
+  padding: 0.5rem 0.2rem;
+  cursor: none;
+
+  &:active {
+    scale: 1;
+  }
+
+  .title {
+    font-size: 0.9rem;
+  }
+
+  .score {
+    font-size: 1.8rem;
+  }
+}
+
+@media screen and (max-width: 22.5rem) {
+  .container {
+    width: 4rem;
+    padding: 0.3rem;
+
+    .score {
+      font-size: 1.2rem;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+@import "./mixins.scss";
+@import "./variables.scss";
+
+.tile {
+  @include flexProp(row, 0rem, center, center);
+  height: 6.5rem;
+  width: 6.5rem;
+  background-color: $cellBg;
+  border-radius: 3px;
+  font-family: "poppins", sans-serif;
+  font-size: 3.5rem;
+  font-weight: 600;
+  transition: top 0.15s ease-in-out, left 0.15s ease-in-out;
+  position: absolute;
+}
