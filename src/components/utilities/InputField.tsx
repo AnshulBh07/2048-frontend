@@ -31,16 +31,21 @@ const InputField: React.FC<IProps> = ({ name }) => {
     <label htmlFor={name} className={styles.container}>
       {/* icon as button */}
       <button
-        onClick={() => {
+        className={styles.icon_btn}
+        onClick={(e) => {
+          e.preventDefault();
           if (name.includes("password")) {
             show ? setShow(false) : setShow(true);
           }
         }}
         disabled={!name.includes("password")}
       >
-        <PiTagSimpleFill />
+        <PiTagSimpleFill className={styles.icon} />
       </button>
-      <input type={name.includes("password") && !show ? "password" : "text"} />
+      <input
+        type={name.includes("password") && !show ? "password" : "text"}
+        className={styles.input_field}
+      />
     </label>
   );
 };
