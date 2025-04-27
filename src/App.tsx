@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import Loader from "./components/utilities/Loader";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./components/login/login";
+import LoginForm from "./components/login/LoginForm";
+import SignupForm from "./components/login/SignupForm";
 
 function App() {
   const { status } = useSelector((state: RootState) => state.game);
@@ -16,10 +18,12 @@ function App() {
   const [confetti, setConfetti] = useState<Boolean>(false);
   const [spinner, setSpinner] = useState<Boolean>(true);
 
+  const loginState = useSelector((state: RootState) => state.login);
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setSpinner(false);
-    }, 6000);
+    }, 5000);
 
     // cleanup function
     return () => clearTimeout(timeoutId);
@@ -50,7 +54,10 @@ function App() {
             )
           }
         />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login />}>
+          <Route index element={<LoginForm />} />
+          <Route path="signup" element={<SignupForm />} />
+        </Route>
         {/* fall back index route */}
         <Route path="*" element={<Navigate to="/" replace />} />
 

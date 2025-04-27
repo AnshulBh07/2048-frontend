@@ -29,3 +29,20 @@
     scale: 0.95;
   }
 }
+
+@mixin GoogleButtonProp {
+  @include flexProp(row, 0.7rem, center, center);
+  width: auto;
+  align-self: center;
+  padding: 0.5rem 1.5rem;
+  background: transparent;
+  border-radius: 20px;
+  border: 1px solid $text3;
+  font-size: 1rem;
+  cursor: pointer;
+
+  .google_icon {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+}

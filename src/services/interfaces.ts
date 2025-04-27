@@ -39,7 +39,7 @@ export interface ILoginState {
 export interface ISignupState {
   username: string;
   email: string;
-  pwd: string;
-  confirm_pwd: string;
+  password: string;
+  confirm_password: string;
   isVerified: boolean;
 }
