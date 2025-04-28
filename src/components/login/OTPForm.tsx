@@ -35,23 +35,41 @@ const OTPForm: React.FC = () => {
         inputRefs.current[index + 1]?.focus();
       }
     }
-
-    // move focus on prev box on backspace
-    if (value === "" && index > 0) inputRefs.current[index - 1]?.focus();
   };
 
   const handleKeydown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     index: number
   ) => {
-    console.log(e, index);
+    const { key } = e;
+
+    if (key === "Backspace") {
+      const newOtp = [...otp];
+      newOtp[index] = "";
+      setOtp(newOtp);
+
+      if (index > 0) inputRefs.current[index - 1]?.focus();
+    }
   };
 
-  const handleVerifyClick = () => {};
+  const handleVerifyClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    // first verify wheteher otp is legit or not at frontend
+    const otpStr = otp.join("");
+    const regex = /^\d{6}$/;
+
+    if (!regex.test(otpStr)) {
+      window.alert("invalid otp");
+    }
+
+    // send a request to server to verify otp
+  };
 
   return (
     <form method="post" className={styles.form}>
-      <p>
+      <p className={styles.info_text}>
         Please provide the OTP sent to <strong>{censorEmail()}</strong>
       </p>
       <div className={styles.box_container}>
@@ -65,6 +83,7 @@ const OTPForm: React.FC = () => {
               ref={(ele) => (inputRefs.current[idx] = ele)}
               onChange={(e) => handleInputChange(e, idx)}
               onKeyDown={(e) => handleKeydown(e, idx)}
+              className={styles.input_box}
             />
           );
         })}
@@ -72,8 +91,11 @@ const OTPForm: React.FC = () => {
 
       <button
         className={styles.verify_btn}
-        onClick={handleVerifyClick}
-      ></button>
+        onClick={(e) => handleVerifyClick(e)}
+        disabled={!otp.every((ele) => /^\d$/.test(ele))}
+      >
+        Verify
+      </button>
     </form>
   );
 };

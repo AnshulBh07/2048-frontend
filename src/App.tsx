@@ -10,6 +10,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Login from "./components/login/login";
 import LoginForm from "./components/login/LoginForm";
 import SignupForm from "./components/login/SignupForm";
+import OTPForm from "./components/login/OTPForm";
 
 function App() {
   const { status } = useSelector((state: RootState) => state.game);
@@ -55,6 +56,7 @@ function App() {
         <Route path="/login" element={<Login />}>
           <Route index element={<LoginForm />} />
           <Route path="signup" element={<SignupForm />} />
+          <Route path="signup/verify" element={<OTPForm />} />
         </Route>
         {/* fall back index route */}
         <Route path="*" element={<Navigate to="/" replace />} />

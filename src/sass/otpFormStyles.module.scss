@@ -1,0 +1,33 @@
+@import "./mixins.scss";
+@import "./variables.scss";
+
+.form {
+  @include flexProp(column, 1rem, center, center);
+  width: auto;
+  background-color: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  font-family: "poppins", sans-serif;
+  font-weight: 500;
+
+  .box_container {
+    @include flexProp(row, 0.5rem, flex-start, center);
+    width: 100%;
+
+    .input_box {
+      height: 3rem;
+      width: 3rem;
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: $text3;
+      border: 2px solid rgba($color: $text3, $alpha: 0.3);
+      border-radius: 5px;
+    }
+  }
+
+  .verify_btn {
+    @include FormButtonProp;
+    margin-top: 1rem;
+  }
+}

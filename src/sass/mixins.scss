@@ -46,3 +46,22 @@
     width: 1.5rem;
   }
 }
+
+@mixin FormButtonProp {
+  align-self: center;
+  border: none;
+  padding: 0.5rem 1rem;
+  background-color: $number32bg;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  border-radius: 5px;
+  letter-spacing: 0.1rem;
+  cursor: pointer;
+  transition: all 0.1s ease-in-out;
+
+  &:active {
+    background-color: $number64bg;
+    scale: 0.98;
+  }
+}
