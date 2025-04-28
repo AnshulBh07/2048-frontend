@@ -18,8 +18,6 @@ function App() {
   const [confetti, setConfetti] = useState<Boolean>(false);
   const [spinner, setSpinner] = useState<Boolean>(true);
 
-  const loginState = useSelector((state: RootState) => state.login);
-
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setSpinner(false);

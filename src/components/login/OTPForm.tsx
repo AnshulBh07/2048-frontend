@@ -43,7 +43,9 @@ const OTPForm: React.FC = () => {
   const handleKeydown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     index: number
-  ) => {};
+  ) => {
+    console.log(e, index);
+  };
 
   const handleVerifyClick = () => {};
 
