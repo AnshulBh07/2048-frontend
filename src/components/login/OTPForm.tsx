@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "@/sass/otpFormStyles.module.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
@@ -7,6 +7,8 @@ const OTPForm: React.FC = () => {
   const { email } = useSelector((state: RootState) => state.signup);
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const [timer, setTimer] = useState<number>(30);
+  const [resend, setResend] = useState<boolean>(false);
 
   const censorEmail = () => {
     const [name, domain] = email.split("@");
@@ -67,6 +69,18 @@ const OTPForm: React.FC = () => {
     // send a request to server to verify otp
   };
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (timer <= 0) {
+        setTimer(0);
+        setResend(true);
+        clearInterval(intervalId);
+      } else setTimer(timer - 1);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [timer]);
+
   return (
     <form method="post" className={styles.form}>
       <p className={styles.info_text}>
@@ -96,6 +110,9 @@ const OTPForm: React.FC = () => {
       >
         Verify
       </button>
+      <p>
+        Resend OTP in <span>{timer}s</span>
+      </p>
     </form>
   );
 };

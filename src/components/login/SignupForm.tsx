@@ -2,6 +2,7 @@ import React from "react";
 import styles from "@/sass/signupFormStyles.module.scss";
 import InputField from "../utilities/InputField";
 import { FcGoogle } from "react-icons/fc";
+import { Link } from "react-router-dom";
 
 const SignupForm: React.FC = () => {
   const handleFormSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -31,6 +32,13 @@ const SignupForm: React.FC = () => {
       <button className={styles.google_btn} onClick={handleGoogleClick}>
         <FcGoogle className={styles.google_icon} /> Signup with Google
       </button>
+
+      <p className={styles.link_text}>
+        Already have an account?{" "}
+        <Link to={"/login"} className={styles.link}>
+          Login
+        </Link>
+      </p>
     </form>
   );
 };

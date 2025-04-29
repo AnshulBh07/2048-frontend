@@ -11,6 +11,7 @@ import Login from "./components/login/login";
 import LoginForm from "./components/login/LoginForm";
 import SignupForm from "./components/login/SignupForm";
 import OTPForm from "./components/login/OTPForm";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   const { status } = useSelector((state: RootState) => state.game);
@@ -86,6 +87,7 @@ function App() {
           </div>
         )}
       </Routes>
+      <ToastContainer />
     </div>
   );
 }

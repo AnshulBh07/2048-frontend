@@ -67,4 +67,17 @@
   .google_btn {
     @include GoogleButtonProp;
   }
+
+  .link_text {
+    font-size: 0.9rem;
+    color: rgba($color: $text3, $alpha: 0.6);
+    align-self: flex-end;
+    margin-top: 1rem;
+
+    .link {
+      text-decoration: none;
+      font-weight: 600;
+      color: $number32bg;
+    }
+  }
 }

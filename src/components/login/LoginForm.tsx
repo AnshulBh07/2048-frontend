@@ -5,13 +5,39 @@ import { IoCheckbox } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/store";
+import { toast } from "react-toastify";
+import {
+  validateEmail,
+  validatePassword,
+  validateUsername,
+} from "@/services/formValidations";
+import { Link } from "react-router-dom";
 
 const LoginForm: React.FC = () => {
-  const { remember } = useSelector((state: RootState) => state.login);
+  const { remember, password, email, username } = useSelector(
+    (state: RootState) => state.login
+  );
   const dispatch: AppDispatch = useDispatch();
 
   const handleFormSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    // check form validation
+    const passwordValidate = validatePassword(password);
+
+    const userValidate =
+      username.length > 0 ? validateUsername(username) : validateEmail(email);
+
+    if (!userValidate[0]) {
+      toast.error(userValidate[1]);
+      return;
+    }
+
+    if (!passwordValidate[0]) {
+      toast.error(passwordValidate[1]);
+      return;
+    }
+
+    // send a request to server logging in
   };
 
   const handleGoogleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -49,6 +75,13 @@ const LoginForm: React.FC = () => {
       <button className={styles.google_btn} onClick={handleGoogleClick}>
         <FcGoogle className={styles.google_icon} /> Login with Google
       </button>
+
+      <p className={styles.link_text}>
+        New user?{" "}
+        <Link to={"/login/signup"} className={styles.link}>
+          Sign up
+        </Link>
+      </p>
     </form>
   );
 };
