@@ -11,13 +11,18 @@ import {
   validatePassword,
   validateUsername,
 } from "@/services/formValidations";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "@/services/loginRequests";
+import { isAxiosError } from "axios";
 
 const LoginForm: React.FC = () => {
-  const { remember, password, email, username } = useSelector(
-    (state: RootState) => state.login
-  );
+  const loginState = useSelector((state: RootState) => state.login);
+
+  const { remember, password, email, username } = loginState;
   const dispatch: AppDispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const controller = new AbortController();
 
   const handleFormSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -38,6 +43,30 @@ const LoginForm: React.FC = () => {
     }
 
     // send a request to server logging in
+    const loginRequest = loginUser(loginState, controller.signal);
+
+    try {
+      const response = await toast.promise(loginRequest, {
+        pending: "Loggin in",
+        error: {
+          render(props) {
+            const error = (props as any).error;
+
+            if (isAxiosError(error) && error.response?.data)
+              return error.response.data;
+
+            return "Something went wrong";
+          },
+        },
+      });
+
+      if (response && response.status === 200) {
+        dispatch({ type: "login/logged", payload: true });
+        navigate("/");
+      }
+    } catch (err) {
+      console.error("Something went wrong", err);
+    }
   };
 
   const handleGoogleClick = (e: React.MouseEvent<HTMLButtonElement>) => {

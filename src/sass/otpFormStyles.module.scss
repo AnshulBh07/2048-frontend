@@ -4,21 +4,27 @@
 .form {
   @include flexProp(column, 1rem, center, center);
   width: auto;
+  max-width: 40%;
   background-color: white;
   padding: 2.5rem;
   border-radius: 10px;
   font-family: "poppins", sans-serif;
   font-weight: 500;
 
+  .info_text {
+    white-space: nowrap;
+  }
+
   .box_container {
-    @include flexProp(row, 0.5rem, flex-start, center);
+    @include flexProp(row, 0.5rem, center, center);
     width: 100%;
+    margin-top: 1rem;
 
     .input_box {
-      height: 3rem;
-      width: 3rem;
+      height: 3.2rem;
+      width: 3.2rem;
       text-align: center;
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       font-weight: 600;
       color: $text3;
       border: 2px solid rgba($color: $text3, $alpha: 0.3);
@@ -28,6 +34,26 @@
 
   .verify_btn {
     @include FormButtonProp;
+    margin-top: 1rem;
+  }
+
+  .resend_txt {
+    font-size: 0.9rem;
+    color: rgba($color: $text3, $alpha: 0.7);
+    margin-top: 1rem;
+
+    span {
+      color: $number64bg;
+      font-weight: 600;
+    }
+  }
+
+  .resend_btn {
+    font-weight: 600;
+    color: $number64bg;
+    background: transparent;
+    border: none;
+    cursor: pointer;
     margin-top: 1rem;
   }
 }

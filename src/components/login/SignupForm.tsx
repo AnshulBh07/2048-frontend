@@ -2,11 +2,77 @@ import React from "react";
 import styles from "@/sass/signupFormStyles.module.scss";
 import InputField from "../utilities/InputField";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import {
+  validateEmail,
+  validatePassword,
+  validateUsername,
+} from "@/services/formValidations";
+import { toast } from "react-toastify";
+import { signinUser } from "@/services/loginRequests";
+import { isAxiosError } from "axios";
 
 const SignupForm: React.FC = () => {
+  const signupState = useSelector((state: RootState) => state.signup);
+  const { username, email, password, confirm_password } = signupState;
+
+  const navigate = useNavigate();
+
+  const controller = new AbortController();
+
   const handleFormSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    // console.log("sign up info is :", signupState);
+    // validate here
+    const emailValidation = validateEmail(email);
+    const passwordValidation = validatePassword(password);
+    const usernameValidation = validateUsername(username);
+
+    if (!usernameValidation[0]) {
+      toast.error(usernameValidation[1]);
+      return;
+    }
+
+    if (!emailValidation[0]) {
+      toast.error(emailValidation[1]);
+      return;
+    }
+
+    if (password !== confirm_password) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    if (!passwordValidation[0]) {
+      toast.error(passwordValidation[1]);
+      return;
+    }
+
+    const signupRequest = signinUser(signupState, controller.signal);
+
+    try {
+      const response = await toast.promise(signupRequest, {
+        pending: "Please wait...",
+        error: {
+          render(toastProps) {
+            const error = (toastProps as any).error;
+
+            if (isAxiosError(error) && error.response?.data) {
+              return error.response.data;
+            }
+            return "Something went wrong.";
+          },
+        },
+      });
+
+      if (response && response.status === 200) {
+        navigate("/login/signup/verify");
+      }
+    } catch (err) {
+      console.error("sign up error", err);
+    }
   };
 
   const handleGoogleClick = (e: React.MouseEvent<HTMLButtonElement>) => {

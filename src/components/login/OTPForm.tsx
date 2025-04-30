@@ -2,6 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "@/sass/otpFormStyles.module.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { resendOtp, verifyOtp } from "@/services/loginRequests";
+import { toast } from "react-toastify";
+import { isAxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 
 const OTPForm: React.FC = () => {
   const { email } = useSelector((state: RootState) => state.signup);
@@ -9,6 +13,9 @@ const OTPForm: React.FC = () => {
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [timer, setTimer] = useState<number>(30);
   const [resend, setResend] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const controller = new AbortController();
 
   const censorEmail = () => {
     const [name, domain] = email.split("@");
@@ -16,7 +23,7 @@ const OTPForm: React.FC = () => {
     if (name.length <= 2) return "*".repeat(name.length) + "@" + domain;
 
     const visible = name.slice(0, 2);
-    const censored = "*".repeat(name.length - 2);
+    const censored = "*".repeat(3);
     return `${visible}${censored}@${domain}`;
   };
 
@@ -54,7 +61,7 @@ const OTPForm: React.FC = () => {
     }
   };
 
-  const handleVerifyClick = (
+  const handleVerifyClick = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
@@ -67,6 +74,63 @@ const OTPForm: React.FC = () => {
     }
 
     // send a request to server to verify otp
+    const verifyRequest = verifyOtp(
+      { email: email, otp: otp.join("") },
+      controller.signal
+    );
+
+    try {
+      const response = await toast.promise(verifyRequest, {
+        pending: "Please wait...",
+        error: {
+          render(toastProps) {
+            const error = (toastProps as any).error;
+
+            if (isAxiosError(error) && error.response?.data) {
+              return error.response.data;
+            }
+            return "Something went wrong.";
+          },
+        },
+      });
+
+      // if verification is successful navigate to login
+      if (response && response.status === 200) navigate("/login");
+    } catch (err) {
+      console.error("verification error", err);
+    }
+  };
+
+  const handleResendClick = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+
+    // make a request to server to resend OTP
+    setOtp(new Array(6).fill(""));
+
+    const resendRequest = resendOtp(email, controller.signal);
+
+    try {
+      await toast.promise(resendRequest, {
+        pending: "Please wait...",
+        success: "Please check your email for OTP.",
+        error: {
+          render(toastProps) {
+            const error = (toastProps as any).error;
+
+            if (isAxiosError(error) && error.response?.data) {
+              return error.response.data;
+            }
+            return "Something went wrong";
+          },
+        },
+      });
+    } catch (err) {
+      console.error("Something went wrong", err);
+    }
+    setResend(false);
+    setTimer(30);
   };
 
   useEffect(() => {
@@ -110,9 +174,18 @@ const OTPForm: React.FC = () => {
       >
         Verify
       </button>
-      <p>
-        Resend OTP in <span>{timer}s</span>
-      </p>
+      {resend ? (
+        <button
+          className={styles.resend_btn}
+          onClick={(e) => handleResendClick(e)}
+        >
+          Resend OTP
+        </button>
+      ) : (
+        <p className={styles.resend_txt}>
+          Resend OTP in <span>{timer}s</span>
+        </p>
+      )}
     </form>
   );
 };
