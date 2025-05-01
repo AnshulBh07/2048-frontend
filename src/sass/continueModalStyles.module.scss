@@ -1,0 +1,68 @@
+@import "./mixins.scss";
+@import "./variables.scss";
+
+.bg_wrapper {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 3;
+  @include flexProp(row, 0rem, center, center);
+
+  .container {
+    position: absolute;
+    background-color: white;
+    @include flexProp(column, 1.5rem, flex-start, center);
+    width: auto;
+    max-width: 30%;
+    z-index: 5;
+    padding: 2.5rem;
+    border-radius: 10px;
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 500;
+    box-shadow: 10px 10px 10px rgba($color: $boardBg, $alpha: 0.1);
+    animation: modalAppear 0.2s ease-in-out forwards;
+
+    .info_text {
+      text-align: center;
+      line-height: 25px;
+      color: rgba($color: $text3, $alpha: 0.8);
+
+      span {
+        color: $number32bg;
+        font-weight: 600;
+      }
+    }
+
+    .btns_wrapper {
+      @include flexProp(row, 1rem, center, center);
+      width: auto;
+
+      .option_btn {
+        @include ButtonProp;
+        width: 4.5rem;
+        background-color: $number64bg;
+      }
+    }
+  }
+
+  .bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+@keyframes modalAppear {
+  0% {
+    scale: 0;
+  }
+  100% {
+    scale: 1;
+  }
+}

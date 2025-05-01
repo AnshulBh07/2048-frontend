@@ -11,6 +11,8 @@ import { useDispatch } from "react-redux";
 import { generateStartMatrix } from "../../services/helperFunctions";
 import GameOverModal from "./GameOverModal";
 import GameWinModal from "./GameWinModal";
+import { ExtendedGameState, saveGame } from "@/services/gameRequests";
+import { toast } from "react-toastify";
 
 function BoardLayout() {
   const {
@@ -22,13 +24,21 @@ function BoardLayout() {
     maxScore,
     prevMatrix,
     undo,
+    moves,
+    matrix,
+    best,
+    newTileCoords,
+    positionsArr,
   } = useSelector((state: RootState) => state.game);
+  const { email } = useSelector((state: RootState) => state.login);
   const dispatch: AppDispatch = useDispatch();
+
+  console.log("number of moves is ", moves);
 
   // we will use a useEffect hook to set the initial state of the matrix for game, this happens
   // only on component reload once or the rows or column changes
   useEffect(() => {
-    if (rows && columns) {
+    if (rows && columns && moves === 0) {
       const fnValue = generateStartMatrix(rows, columns);
 
       dispatch({ type: "game/set_new_tile_coords", payload: fnValue[1] });
@@ -36,7 +46,7 @@ function BoardLayout() {
     }
   }, [columns, dispatch, rows]);
 
-  // used for score animate sliding 
+  // used for score animate sliding
   useEffect(() => {
     if (maxScore > 0)
       dispatch({ type: "game/set_score_animate", payload: true });
@@ -60,6 +70,7 @@ function BoardLayout() {
 
     dispatch({ type: "game/set_undo", payload: false });
     dispatch({ type: "game/set_matrix", payload: prevMatrix });
+    dispatch({ type: "game/moves", payload: moves - 1 });
   };
 
   const handleHomeClick = () => {
@@ -90,6 +101,43 @@ function BoardLayout() {
     return () => window.removeEventListener("resize", handleResize);
   }, [dispatch]);
 
+  // useeffect hook to save game after every 5 moves
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const saveGameFn = async () => {
+      // create the gameObj
+      const gameObj: ExtendedGameState = {
+        email: email,
+        prevMatrix: prevMatrix,
+        moves: moves,
+        matrix: matrix,
+        maxScore: maxScore,
+        currScore: currScore,
+        status: status,
+        best: best,
+        rows: rows,
+        columns: columns,
+        undo: undo,
+        newTileCoords: newTileCoords,
+        positionsArr: positionsArr,
+      };
+
+      const response = await saveGame(gameObj, controller.signal);
+
+      if (response) {
+        if (response.status !== 200) {
+          toast.error(response.data);
+          return;
+        }
+      }
+    };
+
+    if (moves % 5 === 0 && moves !== 0) saveGameFn();
+
+    return () => controller.abort();
+  }, [moves]);
+
   return (
     <React.Fragment>
       <div className={styles.container}>
@@ -103,7 +151,7 @@ function BoardLayout() {
               )}
             </div>
             <ScoreTile title="Score" score={maxScore} />
-            <ScoreTile title="Best" score={0} />
+            <ScoreTile title="Best" score={best} />
           </div>
         </div>
 

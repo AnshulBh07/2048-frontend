@@ -7,12 +7,15 @@ import { useState } from "react";
 import { GiLaurelsTrophy } from "react-icons/gi";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { FaBook } from "react-icons/fa";
-import { AppDispatch } from "../../store";
-import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "../../store";
+import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import ContinueModal from "../modal/gameContinueModal";
 
 function LandingPage() {
   const [selected, setSelected] = useState({ idx: 0, val: "4x4" });
+  const { showModal } = useSelector((state: RootState) => state.login);
 
   const navigate = useNavigate();
 
@@ -45,54 +48,58 @@ function LandingPage() {
   };
 
   return (
-    <form onSubmit={handleGridSelection} className={styles.container}>
-      <div className={styles.radio_group}>
-        {radioOptions.map((option, idx) => {
-          return (
-            <label className={styles.radio_label} key={idx}>
-              <input
-                className={styles.option}
-                name="options"
-                type="radio"
-                value={option.value}
-                checked={selected.idx === idx}
-                onChange={(e) => handleSelectChange(e, idx)}
-              />
-              <img
-                src={option.link}
-                alt="option-png"
-                className={styles.option_img}
-              />
+    <React.Fragment>
+      <form onSubmit={handleGridSelection} className={styles.container}>
+        <div className={styles.radio_group}>
+          {radioOptions.map((option, idx) => {
+            return (
+              <label className={styles.radio_label} key={idx}>
+                <input
+                  className={styles.option}
+                  name="options"
+                  type="radio"
+                  value={option.value}
+                  checked={selected.idx === idx}
+                  onChange={(e) => handleSelectChange(e, idx)}
+                />
+                <img
+                  src={option.link}
+                  alt="option-png"
+                  className={styles.option_img}
+                />
 
-              <p
-                className={styles.option_text}
-                style={{ opacity: selected.idx === idx ? "1" : "0.5" }}
-              >
-                {option.value}
-              </p>
+                <p
+                  className={styles.option_text}
+                  style={{ opacity: selected.idx === idx ? "1" : "0.5" }}
+                >
+                  {option.value}
+                </p>
 
-              <span
-                className={`${styles.option_overlay} ${
-                  selected.idx === idx ? styles.select : ""
-                }`}
-              ></span>
-            </label>
-          );
-        })}
-      </div>
+                <span
+                  className={`${styles.option_overlay} ${
+                    selected.idx === idx ? styles.select : ""
+                  }`}
+                ></span>
+              </label>
+            );
+          })}
+        </div>
 
-      <div className={styles.btns_group}>
-        <button className={styles.trophy_btn}>
-          <GiLaurelsTrophy className={styles.icon} />
-        </button>
-        <button className={styles.start_btn} type="submit">
-          <BiSolidRightArrow className={styles.icon} />
-        </button>
-        <button className={styles.guide_btn}>
-          <FaBook className={styles.icon} />
-        </button>
-      </div>
-    </form>
+        <div className={styles.btns_group}>
+          <button className={styles.trophy_btn}>
+            <GiLaurelsTrophy className={styles.icon} />
+          </button>
+          <button className={styles.start_btn} type="submit">
+            <BiSolidRightArrow className={styles.icon} />
+          </button>
+          <button className={styles.guide_btn}>
+            <FaBook className={styles.icon} />
+          </button>
+        </div>
+      </form>
+
+      {showModal && <ContinueModal />}
+    </React.Fragment>
   );
 }
 

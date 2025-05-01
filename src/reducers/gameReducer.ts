@@ -1,13 +1,14 @@
 import { calculateGameState } from "../services/helperFunctions";
 import { coordinates, IGameState, position } from "../services/interfaces";
 
-// this whole state will also be saved in backend for checkpoint 
+// this whole state will also be saved in backend for checkpoint
 const initialState: IGameState = {
   prevMatrix: new Array(4).fill(null).map(() => new Array(4).fill(0)),
   matrix: new Array(4).fill(null).map(() => new Array(4).fill(0)),
   positionsArr: [],
   maxScore: 0,
   currScore: 0,
+  moves: 0,
   status: "not started",
   best: 0,
   rows: 4,
@@ -18,7 +19,6 @@ const initialState: IGameState = {
   screen: "desktop",
   tileWidth: 6.5,
   newTileCoords: [],
-  mergeTileCoords: [],
   gap: 0.5,
   font_size: 2.5,
 };
@@ -52,12 +52,9 @@ export const gameReducer = (state = initialState, action: actionType) => {
       return { ...state, positionsArr: action.payload as position[] };
     case "game/set_status":
       return { ...state, status: action.payload as string };
-    case "game/set_merge_tile_coords":
-      return { ...state, mergeTileCoords: action.payload as coordsMatrix };
     case "game/set_slide":
       return { ...state, slide: action.payload as boolean };
     case "game/set_tileWidth":
-      console.log("setting tile width");
       return { ...state, tileWidth: action.payload as number };
     case "game/set_gap":
       return { ...state, gap: action.payload as number };
@@ -65,6 +62,10 @@ export const gameReducer = (state = initialState, action: actionType) => {
       return { ...state, screen: action.payload as string };
     case "game/set_game":
       return calculateGameState(state, action.payload as string);
+    case "game/moves":
+      return { ...state, moves: action.payload as number };
+    case "game/best":
+      return { ...state, best: action.payload as number };
     case "game/reset":
       return {
         ...initialState,
@@ -80,7 +81,7 @@ export const gameReducer = (state = initialState, action: actionType) => {
       };
 
     case "game/reset_full":
-      return initialState;
+      return { ...initialState, best: state.best };
     default:
       return state;
   }

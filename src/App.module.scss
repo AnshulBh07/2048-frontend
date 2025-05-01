@@ -1,5 +1,7 @@
 @import "./sass/variables.scss";
 @import "./sass//mixins.scss";
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap");
 
 * {
   margin: 0;
@@ -9,7 +11,7 @@
 
 .container {
   background-color: $pageBg;
-  max-height: 100vh;
+  height: 100vh;
   @include flexProp(row, 0rem, center, center);
   font-family: "poppins", sans-serif;
   position: relative;

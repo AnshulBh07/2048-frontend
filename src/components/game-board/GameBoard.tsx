@@ -16,6 +16,7 @@ import SlideTile from "./SlideTile";
 function GameBoard() {
   const {
     matrix,
+    best,
     rows,
     columns,
     maxScore,
@@ -25,9 +26,12 @@ function GameBoard() {
     positionsArr,
     screen,
     font_size,
+    moves,
   } = useSelector((state: RootState) => state.game);
 
   const dispatch: AppDispatch = useDispatch();
+
+  console.log("matrix is :", matrix);
 
   const handleKeyUP = useCallback(() => {
     // format the array and update the score accordingly
@@ -139,6 +143,11 @@ function GameBoard() {
     dispatch({ type: "game/set_matrix", payload: ansTuple[1] });
     dispatch({ type: "game/set_new_tile_coords", payload: ansTuple[2] });
     dispatch({ type: "game/set_undo", payload: true });
+    dispatch({ type: "game/moves", payload: moves + 1 });
+    dispatch({
+      type: "game/best",
+      payload: Math.max(best, maxScore + moveScore),
+    });
   }, [matrix, rows, columns, dispatch, maxScore]);
 
   const handleKeyDOWN = useCallback(() => {
@@ -251,6 +260,11 @@ function GameBoard() {
     dispatch({ type: "game/set_matrix", payload: ansTuple[1] });
     dispatch({ type: "game/set_new_tile_coords", payload: ansTuple[2] });
     dispatch({ type: "game/set_undo", payload: true });
+    dispatch({ type: "game/moves", payload: moves + 1 });
+    dispatch({
+      type: "game/best",
+      payload: Math.max(best, maxScore + moveScore),
+    });
   }, [rows, columns, matrix, maxScore, dispatch]);
 
   const handleKeyRIGHT = useCallback(() => {
@@ -361,6 +375,11 @@ function GameBoard() {
     dispatch({ type: "game/set_matrix", payload: ansTuple[1] });
     dispatch({ type: "game/set_new_tile_coords", payload: ansTuple[2] });
     dispatch({ type: "game/set_undo", payload: true });
+    dispatch({ type: "game/moves", payload: moves + 1 });
+    dispatch({
+      type: "game/best",
+      payload: Math.max(best, maxScore + moveScore),
+    });
   }, [rows, columns, matrix, maxScore, dispatch]);
 
   const handleKeyLEFT = useCallback(() => {
@@ -467,6 +486,11 @@ function GameBoard() {
     dispatch({ type: "game/set_matrix", payload: ansTuple[1] });
     dispatch({ type: "game/set_new_tile_coords", payload: ansTuple[2] });
     dispatch({ type: "game/set_undo", payload: true });
+    dispatch({ type: "game/moves", payload: moves + 1 });
+    dispatch({
+      type: "game/best",
+      payload: Math.max(best, maxScore + moveScore),
+    });
   }, [columns, rows, dispatch, matrix, maxScore]);
 
   useEffect(() => {

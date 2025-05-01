@@ -7,11 +7,34 @@ export type position = {
   finalCoords: { row: number; column: number };
 };
 
+export type positionSchema = {
+  isMerged: boolean;
+  value: number;
+  initialCoords: { x: number; y: number };
+  finalCoords: { x: number; y: number };
+};
+
+export interface IUserInfo {
+  prevMatrix: number[][];
+  matrix: number[][];
+  maxScore: number;
+  currScore: number;
+  moves: number;
+  gameStatus: string;
+  bestScore: number;
+  rows: number;
+  columns: number;
+  undo: boolean;
+  newTileCoords: [{ x: number; y: number }];
+  positionsArr: positionSchema[]; //matrix that stores the initial and final position of each ele along with value
+}
+
 export interface IGameState {
   prevMatrix: number[][];
   matrix: number[][];
   maxScore: number;
   currScore: number;
+  moves: number;
   status: string;
   best: number;
   rows: number;
@@ -24,7 +47,6 @@ export interface IGameState {
   font_size: number;
   screen: string;
   newTileCoords: coordinates[];
-  mergeTileCoords: coordinates[];
   positionsArr: position[]; //matrix that stores the initial and final position of each ele along with value
 }
 
@@ -34,6 +56,7 @@ export interface ILoginState {
   password: string;
   isLoggedIn: boolean;
   remember: boolean;
+  showModal: boolean;
 }
 
 export interface ISignupState {

@@ -13,6 +13,7 @@ import SignupForm from "./components/login/SignupForm";
 import OTPForm from "./components/login/OTPForm";
 import { ToastContainer } from "react-toastify";
 import axios from "axios";
+import { setGameState } from "./services/helperFunctions";
 
 function App() {
   const { status } = useSelector((state: RootState) => state.game);
@@ -51,8 +52,16 @@ function App() {
           signal: controller.signal,
         });
 
-        if (response && response.status === 200 && response.data) {
-          console.log("user info is :", response.data);
+        if (
+          response &&
+          response.status === 200 &&
+          response.data &&
+          response.data.userInfo
+        ) {
+          console.log(response.data);
+          if (response.data.userInfo.gameState)
+            setGameState(dispatch, response.data.userInfo.gameState);
+
           dispatch({
             type: "login/username",
             payload: response.data.userInfo.username,

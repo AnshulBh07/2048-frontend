@@ -1,4 +1,10 @@
-import { coordinates, IGameState } from "./interfaces";
+import { AppDispatch } from "@/store";
+import {
+  coordinates,
+  IGameState,
+  IUserInfo,
+  positionSchema,
+} from "./interfaces";
 
 export const generateStartMatrix: (
   x: number,
@@ -242,4 +248,37 @@ export const calculateValues: (
     default:
       return [tileWidth, gap, font_size];
   }
+};
+
+export const setGameState = (dispatch: AppDispatch, gameState: IUserInfo) => {
+  dispatch({
+    type: "game/set_game",
+    payload: `${gameState.rows}x${gameState.columns}`,
+  });
+  console.log("setting matrix :", gameState.matrix);
+  dispatch({ type: "game/set_matrix", payload: gameState.matrix });
+  dispatch({ type: "game/set_prev", payload: gameState.prevMatrix });
+  dispatch({ type: "game/set_undo", payload: gameState.undo });
+  dispatch({ type: "game/moves", payload: gameState.moves });
+  dispatch({ type: "game/best", payload: gameState.bestScore });
+  dispatch({ type: "game/set_maxScore", payload: gameState.maxScore });
+  dispatch({ type: "game/set_currScore", payload: gameState.currScore });
+  dispatch({
+    type: "game/set_positions",
+    payload: gameState.positionsArr.map((pos: positionSchema) => {
+      return {
+        isMerged: pos.isMerged,
+        value: pos.value,
+        initialCoords: { row: pos.initialCoords.x, col: pos.initialCoords.y },
+        finalCoords: { row: pos.finalCoords.x, col: pos.finalCoords.y },
+      };
+    }),
+  });
+  dispatch({
+    type: "game/set_new_tile_coords",
+    payload: gameState.newTileCoords.map((coord) => {
+      return [coord.x, coord.y];
+    }),
+  });
+  dispatch({ type: "game/set_status", payload: gameState.gameStatus });
 };

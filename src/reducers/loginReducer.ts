@@ -6,6 +6,7 @@ const initialState: ILoginState = {
   email: "",
   password: "",
   remember: false,
+  showModal: true,
 };
 
 type actionType = { type: string; payload?: string | boolean };
@@ -22,6 +23,8 @@ export const loginReducer = (state = initialState, action: actionType) => {
       return { ...state, remember: action.payload as boolean };
     case "login/logged":
       return { ...state, isLoggedIn: action.payload as boolean };
+    case "login/modal":
+      return { ...state, showModal: action.payload as boolean };
     default:
       return state;
   }
