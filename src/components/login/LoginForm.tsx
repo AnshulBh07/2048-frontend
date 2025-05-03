@@ -12,8 +12,14 @@ import {
   validateUsername,
 } from "@/services/formValidations";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "@/services/loginRequests";
+import { googleLogin, loginUser } from "@/services/loginRequests";
 import { isAxiosError } from "axios";
+import {
+  CodeResponse,
+  GoogleLoginProps,
+  useGoogleLogin,
+} from "@react-oauth/google";
+import { setGameState } from "@/services/helperFunctions";
 
 const LoginForm: React.FC = () => {
   const loginState = useSelector((state: RootState) => state.login);
@@ -60,8 +66,28 @@ const LoginForm: React.FC = () => {
         },
       });
 
-      if (response && response.status === 200) {
-        dispatch({ type: "login/logged", payload: true });
+      if (
+        response &&
+        response.status === 200 &&
+        response.data &&
+        response.data.userInfo
+      ) {
+        console.log(response.data);
+        if (response.data.userInfo.gameState)
+          setGameState(dispatch, response.data.userInfo.gameState);
+
+        dispatch({
+          type: "login/username",
+          payload: response.data.userInfo.username,
+        });
+        dispatch({
+          type: "login/email",
+          payload: response.data.userInfo.email,
+        });
+        dispatch({
+          type: "login/logged",
+          payload: true,
+        });
         navigate("/");
       }
     } catch (err) {
@@ -69,9 +95,41 @@ const LoginForm: React.FC = () => {
     }
   };
 
-  const handleGoogleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-  };
+  const handleGoogleClick = useGoogleLogin({
+    flow: "auth-code",
+    onSuccess: async (codeResponse: CodeResponse) => {
+      const response = await googleLogin(codeResponse.code, controller.signal);
+
+      if (
+        response &&
+        response.status === 200 &&
+        response.data &&
+        response.data.userInfo
+      ) {
+        console.log(response.data);
+        if (response.data.userInfo.gameState)
+          setGameState(dispatch, response.data.userInfo.gameState);
+
+        dispatch({
+          type: "login/username",
+          payload: response.data.userInfo.username,
+        });
+        dispatch({
+          type: "login/email",
+          payload: response.data.userInfo.email,
+        });
+        dispatch({
+          type: "login/logged",
+          payload: true,
+        });
+        navigate("/");
+      }
+    },
+    onError: (error) => {
+      toast.error("Something went wrong.");
+      console.error(error);
+    },
+  });
 
   return (
     <form action="post" className={styles.form}>
@@ -101,7 +159,13 @@ const LoginForm: React.FC = () => {
 
       <p className={styles.separator}>Or</p>
 
-      <button className={styles.google_btn} onClick={handleGoogleClick}>
+      <button
+        className={styles.google_btn}
+        onClick={(e) => {
+          e.preventDefault();
+          handleGoogleClick();
+        }}
+      >
         <FcGoogle className={styles.google_icon} /> Login with Google
       </button>
 

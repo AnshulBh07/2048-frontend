@@ -101,3 +101,26 @@ export const resendOtp = async (email: string, signal: AbortSignal) => {
     console.error(err);
   }
 };
+
+export const googleLogin = async (code: string, signal: AbortSignal) => {
+  try {
+    const response = await axios({
+      method: "post",
+      url: `${BASE_URL}/login/google`,
+      data: { code: code },
+      withCredentials: true,
+      signal: signal,
+    });
+
+    if (response) return response;
+  } catch (err) {
+    if (isAxiosError(err)) {
+      const axiosErr = err as AxiosError;
+
+      if (axiosErr.response) {
+        return axiosErr.response;
+      } else console.log("Network error.");
+    }
+    console.error(err);
+  }
+};

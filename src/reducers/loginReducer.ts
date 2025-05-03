@@ -6,7 +6,7 @@ const initialState: ILoginState = {
   email: "",
   password: "",
   remember: false,
-  showModal: true,
+  showModal: false,
 };
 
 type actionType = { type: string; payload?: string | boolean };

@@ -255,7 +255,6 @@ export const setGameState = (dispatch: AppDispatch, gameState: IUserInfo) => {
     type: "game/set_game",
     payload: `${gameState.rows}x${gameState.columns}`,
   });
-  console.log("setting matrix :", gameState.matrix);
   dispatch({ type: "game/set_matrix", payload: gameState.matrix });
   dispatch({ type: "game/set_prev", payload: gameState.prevMatrix });
   dispatch({ type: "game/set_undo", payload: gameState.undo });
@@ -281,4 +280,5 @@ export const setGameState = (dispatch: AppDispatch, gameState: IUserInfo) => {
     }),
   });
   dispatch({ type: "game/set_status", payload: gameState.gameStatus });
+  dispatch({ type: "login/modal", payload: true });
 };
