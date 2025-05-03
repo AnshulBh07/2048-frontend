@@ -14,11 +14,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { googleLogin, loginUser } from "@/services/loginRequests";
 import { isAxiosError } from "axios";
-import {
-  CodeResponse,
-  GoogleLoginProps,
-  useGoogleLogin,
-} from "@react-oauth/google";
+import { CodeResponse, useGoogleLogin } from "@react-oauth/google";
 import { setGameState } from "@/services/helperFunctions";
 
 const LoginForm: React.FC = () => {
