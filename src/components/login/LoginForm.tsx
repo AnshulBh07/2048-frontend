@@ -15,7 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { googleLogin, loginUser } from "@/services/loginRequests";
 import { isAxiosError } from "axios";
 import { CodeResponse, useGoogleLogin } from "@react-oauth/google";
-import { setGameState } from "@/services/helperFunctions";
+import { playButtonSound, setGameState } from "@/services/helperFunctions";
 
 const LoginForm: React.FC = () => {
   const loginState = useSelector((state: RootState) => state.login);
@@ -27,6 +27,7 @@ const LoginForm: React.FC = () => {
   const controller = new AbortController();
 
   const handleFormSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    playButtonSound();
     e.preventDefault();
     // check form validation
     const passwordValidate = validatePassword(password);
@@ -68,7 +69,6 @@ const LoginForm: React.FC = () => {
         response.data &&
         response.data.userInfo
       ) {
-        console.log(response.data);
         if (response.data.userInfo.gameState)
           setGameState(dispatch, response.data.userInfo.gameState);
 
@@ -84,6 +84,7 @@ const LoginForm: React.FC = () => {
           type: "login/logged",
           payload: true,
         });
+        dispatch({ type: "login/set_music", payload: true });
         navigate("/");
       }
     } catch (err) {
@@ -118,6 +119,7 @@ const LoginForm: React.FC = () => {
           type: "login/logged",
           payload: true,
         });
+        dispatch({ type: "login/set_music", payload: true });
         navigate("/");
       }
     },

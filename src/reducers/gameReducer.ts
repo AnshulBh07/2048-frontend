@@ -77,6 +77,7 @@ export const gameReducer = (state = initialState, action: actionType) => {
         font_size: state.font_size,
         tileWidth: state.tileWidth,
         screen: state.screen,
+        best: state.best,
         status: state.status,
       };
 

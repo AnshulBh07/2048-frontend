@@ -8,6 +8,8 @@ import {
   generateNewTile,
   hasWon,
   isEndOfGame,
+  playErrorSound,
+  playSlideTileSound,
 } from "../../services/helperFunctions";
 import { useDispatch } from "react-redux";
 import { position } from "../../services/interfaces";
@@ -30,8 +32,6 @@ function GameBoard() {
   } = useSelector((state: RootState) => state.game);
 
   const dispatch: AppDispatch = useDispatch();
-
-  console.log("matrix is :", matrix);
 
   const handleKeyUP = useCallback(() => {
     // format the array and update the score accordingly
@@ -124,9 +124,12 @@ function GameBoard() {
       prevMatrix.every((row, i) =>
         row.every((ele, j) => ele === currMatrix[i][j])
       )
-    )
+    ) {
+      playErrorSound();
       return;
+    }
 
+    playSlideTileSound();
     const ansTuple = generateNewTile(rows, columns, currMatrix);
 
     dispatch({ type: "game/set_slide", payload: true });
@@ -241,8 +244,12 @@ function GameBoard() {
       prevMatrix.every((row, i) =>
         row.every((ele, j) => ele === currMatrix[i][j])
       )
-    )
+    ) {
+      playErrorSound();
       return;
+    }
+
+    playSlideTileSound();
 
     const ansTuple = generateNewTile(rows, columns, currMatrix);
 
@@ -356,8 +363,12 @@ function GameBoard() {
       prevMatrix.every((row, i) =>
         row.every((ele, j) => ele === currMatrix[i][j])
       )
-    )
+    ) {
+      playErrorSound();
       return;
+    }
+
+    playSlideTileSound();
 
     const ansTuple = generateNewTile(rows, columns, currMatrix);
 
@@ -467,8 +478,12 @@ function GameBoard() {
       prevMatrix.every((row, i) =>
         row.every((ele, j) => ele === currMatrix[i][j])
       )
-    )
+    ) {
+      playErrorSound();
       return;
+    }
+
+    playSlideTileSound();
 
     const ansTuple = generateNewTile(rows, columns, currMatrix);
 

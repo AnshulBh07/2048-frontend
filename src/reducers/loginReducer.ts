@@ -7,6 +7,7 @@ const initialState: ILoginState = {
   password: "",
   remember: false,
   showModal: false,
+  isMusicEnabled: false,
 };
 
 type actionType = { type: string; payload?: string | boolean };
@@ -25,6 +26,8 @@ export const loginReducer = (state = initialState, action: actionType) => {
       return { ...state, isLoggedIn: action.payload as boolean };
     case "login/modal":
       return { ...state, showModal: action.payload as boolean };
+    case "login/set_music":
+      return { ...state, isMusicEnabled: action.payload as boolean };
     default:
       return state;
   }

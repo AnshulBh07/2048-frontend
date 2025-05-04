@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "../../sass/tileStyles.module.scss";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { calculateValues, decideColorFn } from "../../services/helperFunctions";
+import {
+  calculateValues,
+  decideColorFn,
+  playPopupSound,
+} from "../../services/helperFunctions";
 
 interface IProps {
   value: number | null;
@@ -28,6 +32,10 @@ export const Tile: React.FC<IProps> = ({ value, x, y }) => {
   };
 
   const fnValues = calculateValues(tileWidth, gap, font_size, screen);
+
+  useEffect(() => {
+    if (isNewTile()) playPopupSound();
+  }, []);
 
   return (
     <div

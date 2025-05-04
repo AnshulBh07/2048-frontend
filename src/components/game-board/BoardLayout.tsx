@@ -8,11 +8,15 @@ import { FaUndoAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store";
 import { useDispatch } from "react-redux";
-import { generateStartMatrix } from "../../services/helperFunctions";
+import {
+  generateStartMatrix,
+  playButtonSound,
+} from "../../services/helperFunctions";
 import GameOverModal from "./GameOverModal";
 import GameWinModal from "./GameWinModal";
 import { ExtendedGameState, saveGame } from "@/services/gameRequests";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 function BoardLayout() {
   const {
@@ -32,8 +36,7 @@ function BoardLayout() {
   } = useSelector((state: RootState) => state.game);
   const { email } = useSelector((state: RootState) => state.login);
   const dispatch: AppDispatch = useDispatch();
-
-  console.log("number of moves is ", moves);
+  const navigate = useNavigate();
 
   // we will use a useEffect hook to set the initial state of the matrix for game, this happens
   // only on component reload once or the rows or column changes
@@ -63,6 +66,7 @@ function BoardLayout() {
     const fnValue = generateStartMatrix(rows, columns);
     dispatch({ type: "game/set_matrix", payload: fnValue[0] });
     dispatch({ type: "game/set_new_tile_coords", payload: fnValue[1] });
+    playButtonSound();
   };
 
   const handleUndoClick = () => {
@@ -71,10 +75,12 @@ function BoardLayout() {
     dispatch({ type: "game/set_undo", payload: false });
     dispatch({ type: "game/set_matrix", payload: prevMatrix });
     dispatch({ type: "game/moves", payload: moves - 1 });
+    playButtonSound();
   };
 
   const handleHomeClick = () => {
-    dispatch({ type: "game/reset_full" });
+    playButtonSound();
+    navigate("/");
   };
 
   // used for checking whether the screen is mobile or desktop, only trigger once at component load
@@ -171,7 +177,11 @@ function BoardLayout() {
           >
             <HiMiniHome className={styles.icon} />
           </button>
-          <button className={styles.option_btn} onClick={handleUndoClick}>
+          <button
+            className={styles.option_btn}
+            onClick={handleUndoClick}
+            disabled={!undo}
+          >
             <FaUndoAlt className={styles.icon} />
           </button>
           <button className={styles.option_btn} onClick={handleRestartClick}>

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import ContinueModal from "../modal/gameContinueModal";
+import { playButtonSound } from "@/services/helperFunctions";
 
 function LandingPage() {
   const [selected, setSelected] = useState({ idx: 0, val: "4x4" });
@@ -22,6 +23,7 @@ function LandingPage() {
   const dispatch: AppDispatch = useDispatch();
 
   const handleGridSelection = (e: React.FormEvent<HTMLFormElement>) => {
+    playButtonSound();
     e.preventDefault();
 
     dispatch({ type: "game/set_status", payload: "playing" });
@@ -45,6 +47,20 @@ function LandingPage() {
     setSelected({ idx: index, val: value });
 
     dispatch({ type: "game/set_game", payload: value });
+  };
+
+  const handleLeaderBoardClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    playButtonSound();
+  };
+
+  const handleGuideClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    playButtonSound();
   };
 
   return (
@@ -86,13 +102,13 @@ function LandingPage() {
         </div>
 
         <div className={styles.btns_group}>
-          <button className={styles.trophy_btn}>
+          <button className={styles.trophy_btn} onClick={handleLeaderBoardClick}>
             <GiLaurelsTrophy className={styles.icon} />
           </button>
           <button className={styles.start_btn} type="submit">
             <BiSolidRightArrow className={styles.icon} />
           </button>
-          <button className={styles.guide_btn}>
+          <button className={styles.guide_btn} onClick={handleGuideClick}>
             <FaBook className={styles.icon} />
           </button>
         </div>

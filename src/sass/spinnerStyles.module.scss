@@ -4,6 +4,7 @@
 .container {
   @include flexProp(column, 2rem, center, center);
   height: 100vh;
+  position: relative;
 
   .logo {
     max-width: 15%;
@@ -54,5 +55,17 @@
   }
   100% {
     transform: translateY(0);
+  }
+}
+
+@media screen and (max-width: 22.5rem) {
+  .container {
+    .logo {
+      max-width: 25%;
+    }
+
+    .loader {
+      width: 25%;
+    }
   }
 }

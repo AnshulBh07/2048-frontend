@@ -5,6 +5,10 @@ import {
   IUserInfo,
   positionSchema,
 } from "./interfaces";
+import ButtonSound from "@/assets/sounds/button_click.wav";
+import SlideTileSound from "@/assets/sounds/slide_tile.wav";
+import Errorsound from "@/assets/sounds/error.flac";
+import PopupSound from "@/assets/sounds/pop_up.wav";
 
 export const generateStartMatrix: (
   x: number,
@@ -121,7 +125,7 @@ export const generateNewTile: (
     }
   }
 
-  if (emptySlots.length === 0) return [true, matrix, coordArr];
+  if (emptySlots.length === 0) return [false, matrix, coordArr];
 
   //   select random coordinate from empty slots
   const index = Math.floor(Math.random() * emptySlots.length);
@@ -281,4 +285,32 @@ export const setGameState = (dispatch: AppDispatch, gameState: IUserInfo) => {
   });
   dispatch({ type: "game/set_status", payload: gameState.gameStatus });
   dispatch({ type: "login/modal", payload: true });
+};
+
+export const playButtonSound = () => {
+  const audio = new Audio(ButtonSound);
+
+  audio.volume = 0.7;
+  audio.play();
+};
+
+export const playSlideTileSound = () => {
+  const audio = new Audio(SlideTileSound);
+
+  audio.volume = 1;
+  audio.play();
+};
+
+export const playErrorSound = () => {
+  const audio = new Audio(Errorsound);
+
+  audio.volume = 1;
+  audio.play();
+};
+
+export const playPopupSound = () => {
+  const audio = new Audio(PopupSound);
+
+  audio.volume = 1;
+  audio.play();
 };

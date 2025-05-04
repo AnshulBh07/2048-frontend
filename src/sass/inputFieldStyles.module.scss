@@ -34,7 +34,7 @@
     font-family: "Poppins", sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
-    color: $text3;
+    color: rgba($color: $text3, $alpha: 0.8);
     letter-spacing: 1px;
 
     &:focus {
@@ -45,6 +45,14 @@
       opacity: 0.5;
       letter-spacing: normal;
       text-transform: capitalize;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+@media screen and (max-width: 22.5rem) {
+  .container {
+    .input_field {
       font-size: 0.9rem;
     }
   }

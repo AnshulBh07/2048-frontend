@@ -3,6 +3,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "@/sass/continueModalStyles.module.scss";
 import { useNavigate } from "react-router-dom";
+import { playButtonSound } from "@/services/helperFunctions";
 
 const ContinueModal: React.FC = () => {
   const { username } = useSelector((state: RootState) => state.login);
@@ -10,12 +11,16 @@ const ContinueModal: React.FC = () => {
   const navigate = useNavigate();
 
   const handleYesClick = () => {
+    playButtonSound();
+    dispatch({ type: "login/set_music", payload: true });
     navigate("/game");
   };
 
   const handleNoClick = () => {
-    dispatch({ type: "login/modal", payload: false });
+    playButtonSound();
     dispatch({ type: "game/reset_full" });
+    dispatch({ type: "login/set_music", payload: true });
+    dispatch({ type: "login/modal", payload: false });
   };
 
   return (

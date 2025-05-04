@@ -96,3 +96,22 @@
     }
   }
 }
+
+@media screen and (max-width: 22.5rem) {
+  .form {
+    height: 100%;
+    justify-content: center;
+
+    .header2 {
+      margin-bottom: 1rem;
+    }
+
+    .submit_btn {
+      margin-top: 1rem;
+    }
+
+    .link_text {
+      margin-top: 1rem;
+    }
+  }
+}

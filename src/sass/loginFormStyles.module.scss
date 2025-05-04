@@ -81,3 +81,18 @@
     }
   }
 }
+
+@media screen and (max-width: 22.5rem) {
+  .form {
+    height: 100%;
+    justify-content: center;
+
+    .header2 {
+      margin-bottom: 2rem;
+    }
+
+    .link_text {
+      margin-top: 1rem;
+    }
+  }
+}

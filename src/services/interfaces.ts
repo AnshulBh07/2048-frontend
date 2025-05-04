@@ -57,6 +57,7 @@ export interface ILoginState {
   isLoggedIn: boolean;
   remember: boolean;
   showModal: boolean;
+  isMusicEnabled: boolean;
 }
 
 export interface ISignupState {

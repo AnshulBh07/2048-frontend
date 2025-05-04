@@ -4,7 +4,6 @@
 .container {
   @include flexProp(column, 3rem, flex-start, center);
   width: 50%;
-  // background-color: aqua;
 
   .radio_group {
     display: grid;

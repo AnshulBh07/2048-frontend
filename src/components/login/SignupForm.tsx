@@ -13,6 +13,7 @@ import {
 import { toast } from "react-toastify";
 import { signinUser } from "@/services/loginRequests";
 import { isAxiosError } from "axios";
+import { playButtonSound } from "@/services/helperFunctions";
 
 const SignupForm: React.FC = () => {
   const signupState = useSelector((state: RootState) => state.signup);
@@ -23,6 +24,7 @@ const SignupForm: React.FC = () => {
   const controller = new AbortController();
 
   const handleFormSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    playButtonSound();
     e.preventDefault();
     // console.log("sign up info is :", signupState);
     // validate here
@@ -75,9 +77,9 @@ const SignupForm: React.FC = () => {
     }
   };
 
-  const handleGoogleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-  };
+  // const handleGoogleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  //   e.preventDefault();
+  // };
 
   return (
     <form action="post" className={styles.form}>
@@ -93,11 +95,11 @@ const SignupForm: React.FC = () => {
         Register
       </button>
 
-      <p className={styles.separator}>Or</p>
+      {/* <p className={styles.separator}>Or</p>
 
       <button className={styles.google_btn} onClick={handleGoogleClick}>
         <FcGoogle className={styles.google_icon} /> Signup with Google
-      </button>
+      </button> */}
 
       <p className={styles.link_text}>
         Already have an account?{" "}
