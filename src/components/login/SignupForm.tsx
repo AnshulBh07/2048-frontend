@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "@/sass/signupFormStyles.module.scss";
 import InputField from "../utilities/InputField";
-import { FcGoogle } from "react-icons/fc";
+// import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
