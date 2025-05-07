@@ -1,0 +1,91 @@
+@import "./variables.scss";
+@import "./mixins.scss";
+
+.container {
+  @include flexProp(row, 0rem, center, center);
+  position: fixed;
+  height: 100%;
+  z-index: 2;
+
+  .modal {
+    @include flexProp(column, 1.5rem, flex-start, flex-start);
+    max-width: 40%;
+    max-height: 80%;
+    padding: 3rem;
+    background-color: white;
+    font-family: "Josefin Sans", sans-serif;
+    font-weight: 500;
+    color: $text1;
+    border-radius: 10px;
+    z-index: 4;
+    box-shadow: 10px 10px 10px rgba($color: $boardBg, $alpha: 0.1);
+
+    .info_section {
+      @include flexProp(column, 1.5rem, flex-start, flex-start);
+      overflow-y: auto;
+      line-height: 20px;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .separator {
+        width: 100%;
+        border: 1px solid gray;
+      }
+
+      .intro_section,
+      .controls_section,
+      .goals_section,
+      .howto_section,
+      .tips_section {
+        @include flexProp(column, 1rem, flex-start, flex-start);
+
+        ul {
+          @include flexProp(column, 0.5rem, flex-start, flex-start);
+          padding-left: 1.5rem;
+          list-style-type: disc;
+
+          .list_item {
+            @include flexProp(column, 0.5rem, flex-start, flex-start);
+          }
+        }
+      }
+    }
+
+    .back_btn {
+      @include ButtonProp;
+      text-transform: capitalize;
+    }
+  }
+
+  .bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 3;
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
+
+@media screen and (max-width: 22.5em) {
+  .container {
+    .modal {
+      max-width: 85%;
+      padding: 1.5rem;
+
+      .info_section {
+        font-size: 0.9rem;
+        gap: 1rem;
+
+        h2 {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+}

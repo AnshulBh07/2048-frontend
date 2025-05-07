@@ -11,13 +11,14 @@ import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import ContinueModal from "../modal/gameContinueModal";
+import ContinueModal from "../modal/GameContinueModal";
 import { playButtonSound } from "@/services/helperFunctions";
 import LeaderboardModal from "../modal/LeaderboardModal";
+import GuideModal from "../modal/GuideModal";
 
 function LandingPage() {
   const [selected, setSelected] = useState({ idx: 0, val: "4x4" });
-  const { gameContinueModal, leaderBoardModal } = useSelector(
+  const { gameContinueModal, leaderBoardModal, guideModal } = useSelector(
     (state: RootState) => state.modal
   );
 
@@ -65,6 +66,7 @@ function LandingPage() {
   ) => {
     e.preventDefault();
     playButtonSound();
+    dispatch({ type: "modal/guide", payload: true });
   };
 
   return (
@@ -123,6 +125,7 @@ function LandingPage() {
 
       {gameContinueModal && <ContinueModal />}
       {leaderBoardModal && <LeaderboardModal />}
+      {guideModal && <GuideModal />}
     </React.Fragment>
   );
 }
