@@ -67,3 +67,17 @@ export interface ISignupState {
   confirm_password: string;
   isVerified: boolean;
 }
+
+export interface ILeaderboard {
+  username: string;
+  max_tile: number;
+  score: number;
+}
+
+export interface IModalState {
+  leaderBoardModal: boolean;
+  guideModal: boolean;
+  gameOverModal: boolean;
+  gameWinModal: boolean;
+  gameContinueModal: boolean;
+}

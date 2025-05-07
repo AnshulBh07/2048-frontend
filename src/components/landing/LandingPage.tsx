@@ -13,10 +13,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import ContinueModal from "../modal/gameContinueModal";
 import { playButtonSound } from "@/services/helperFunctions";
+import LeaderboardModal from "../modal/LeaderboardModal";
 
 function LandingPage() {
   const [selected, setSelected] = useState({ idx: 0, val: "4x4" });
-  const { showModal } = useSelector((state: RootState) => state.login);
+  const { gameContinueModal, leaderBoardModal } = useSelector(
+    (state: RootState) => state.modal
+  );
 
   const navigate = useNavigate();
 
@@ -54,6 +57,7 @@ function LandingPage() {
   ) => {
     e.preventDefault();
     playButtonSound();
+    dispatch({ type: "modal/leaderboard", payload: true });
   };
 
   const handleGuideClick = (
@@ -102,7 +106,10 @@ function LandingPage() {
         </div>
 
         <div className={styles.btns_group}>
-          <button className={styles.trophy_btn} onClick={handleLeaderBoardClick}>
+          <button
+            className={styles.trophy_btn}
+            onClick={handleLeaderBoardClick}
+          >
             <GiLaurelsTrophy className={styles.icon} />
           </button>
           <button className={styles.start_btn} type="submit">
@@ -114,7 +121,8 @@ function LandingPage() {
         </div>
       </form>
 
-      {showModal && <ContinueModal />}
+      {gameContinueModal && <ContinueModal />}
+      {leaderBoardModal && <LeaderboardModal />}
     </React.Fragment>
   );
 }

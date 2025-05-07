@@ -1,0 +1,43 @@
+@import "./mixins.scss";
+@import "./variables.scss";
+
+.wrapper {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+  @include flexProp(row, 0rem, center, center);
+
+  .bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 3;
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .modal {
+    z-index: 4;
+    background-color: white;
+    @include flexProp(column, 0rem, flex-start, center);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba($color: $text3, $alpha: 0.2);
+    max-height: 70%;
+    width: 40%;
+  }
+}
+
+@media screen and (max-width: 22.5em) {
+  .wrapper {
+    .modal {
+      max-height: 80%;
+      width: 85%;
+      padding: 2rem 1.1rem;
+    }
+  }
+}

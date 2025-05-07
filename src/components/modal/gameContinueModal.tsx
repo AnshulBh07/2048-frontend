@@ -20,7 +20,7 @@ const ContinueModal: React.FC = () => {
     playButtonSound();
     dispatch({ type: "game/reset_full" });
     dispatch({ type: "login/set_music", payload: true });
-    dispatch({ type: "login/modal", payload: false });
+    dispatch({ type: "modal/game_continue", payload: false });
   };
 
   return (

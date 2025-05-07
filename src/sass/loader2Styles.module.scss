@@ -1,0 +1,63 @@
+@import "./mixins.scss";
+@import "./variables.scss";
+
+.container {
+  @include flexProp(column, 0, center, center);
+  height: 100%;
+  padding: 3rem;
+
+  .logo {
+    max-width: 20%;
+    animation: levitateAndRotate 7s ease-in-out infinite;
+  }
+
+  span {
+    height: 4rem;
+    width: 15%;
+    background-image: radial-gradient($scoreCardBg, white);
+    border-radius: 50%;
+    border: none;
+    filter: blur(10px);
+    transform: rotateX(60deg);
+    animation: throb 7s ease-in-out infinite;
+  }
+}
+
+@media screen and (max-width: 22.5em) {
+  .container {
+    width: 100%;
+
+    .logo {
+      margin-top: 3rem;
+      max-width: 40%;
+    }
+
+    span {
+      width:30%;
+    }
+  }
+}
+
+@keyframes levitateAndRotate {
+  0% {
+    transform: translateY(0rem) rotateY(0deg);
+  }
+  50% {
+    transform: translateY(-1rem) rotateY(360deg);
+  }
+  100% {
+    transform: translateY(0rem) rotateY(0deg);
+  }
+}
+
+@keyframes throb {
+  0% {
+    scale: 1;
+  }
+  50% {
+    scale: 0.7;
+  }
+  100% {
+    scale: 1;
+  }
+}

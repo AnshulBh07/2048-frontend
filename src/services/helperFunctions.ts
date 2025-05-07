@@ -284,7 +284,7 @@ export const setGameState = (dispatch: AppDispatch, gameState: IUserInfo) => {
     }),
   });
   dispatch({ type: "game/set_status", payload: gameState.gameStatus });
-  dispatch({ type: "login/modal", payload: true });
+  dispatch({ type: "modal/game_continue", payload: true });
 };
 
 export const playButtonSound = () => {

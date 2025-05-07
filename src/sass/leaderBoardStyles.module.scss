@@ -1,0 +1,110 @@
+@import "./variables.scss";
+@import "./mixins.scss";
+
+.container {
+  @include flexProp(column, 1rem, flex-start, center);
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 500;
+
+  .heading {
+    color: $text1;
+  }
+
+  .tables_wrapper {
+    @include flexProp(column, 0rem, flex-start, center);
+
+    .table {
+      width: 100%;
+      border: none;
+      color: $text1;
+      border-collapse: collapse;
+      text-align: center;
+
+      tr {
+        width: 100%;
+        font-size: 1.1rem;
+        font-weight: 650;
+
+        th {
+          width: 33%;
+          padding: 0.6rem 0rem;
+        }
+      }
+    }
+
+    .scroll_table {
+      width: 100%;
+      overflow-y: auto;
+      max-height: 22rem;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+
+      .table2 {
+        border: none;
+        border-collapse: collapse;
+        text-align: center;
+        color: $text1;
+        width: 100%;
+
+        tbody {
+          tr {
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 650;
+
+            td {
+              width: 33%;
+              padding: 0.6rem 0rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .back_btn {
+    @include ButtonProp;
+    text-transform: capitalize;
+    margin-top: 1rem;
+  }
+}
+
+@media screen and (max-width: 22.5em) {
+  .container {
+    .heading {
+      font-size: 1.2rem;
+    }
+
+    .tables_wrapper {
+      width: 100%;
+
+      .table {
+        tr {
+          font-size: 0.9rem;
+
+          th {
+            padding: 0.5rem 0rem;
+          }
+        }
+      }
+
+      .scroll_table {
+        max-height: 20rem;
+
+        .table2 {
+          tbody {
+            tr {
+              font-size: 0.9rem;
+
+              td {
+                padding: 0.5rem 0rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

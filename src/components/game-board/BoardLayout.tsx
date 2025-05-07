@@ -112,11 +112,16 @@ function BoardLayout() {
     const controller = new AbortController();
 
     const saveGameFn = async () => {
+      // find max tile
+      const max_tile = matrix.flat().reduce((prev, curr) => {
+        return Math.max(prev, curr);
+      }, -1e9);
       // create the gameObj
       const gameObj: ExtendedGameState = {
         email: email,
         prevMatrix: prevMatrix,
         moves: moves,
+        max_tile: max_tile,
         matrix: matrix,
         maxScore: maxScore,
         currScore: currScore,

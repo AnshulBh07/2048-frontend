@@ -128,40 +128,40 @@ function App() {
         </Route>
         {/* fall back index route */}
         <Route path="*" element={<Navigate to="/" replace />} />
-
-        {confetti && (
-          <div className={styles.confetti_container}>
-            <ConfettiExplosion
-              zIndex={10}
-              height={3000}
-              width={2000}
-              duration={5000}
-              particleCount={200}
-              force={0.4}
-              onComplete={() => {
-                setConfetti(false);
-                audioRef.current.pause();
-                audioRef.current.onended = null;
-              }}
-              className={styles.confetti1}
-            />
-            <ConfettiExplosion
-              zIndex={10}
-              height={3000}
-              particleCount={200}
-              width={2000}
-              duration={5000}
-              force={0.4}
-              onComplete={() => {
-                setConfetti(false);
-                audioRef.current.pause();
-                audioRef.current.onended = null;
-              }}
-              className={styles.confetti2}
-            />
-          </div>
-        )}
       </Routes>
+
+      {confetti && (
+        <div className={styles.confetti_container}>
+          <ConfettiExplosion
+            zIndex={10}
+            height={3000}
+            width={2000}
+            duration={5000}
+            particleCount={200}
+            force={0.4}
+            onComplete={() => {
+              setConfetti(false);
+              audioRef.current.pause();
+              audioRef.current.onended = null;
+            }}
+            className={styles.confetti1}
+          />
+          <ConfettiExplosion
+            zIndex={10}
+            height={3000}
+            particleCount={200}
+            width={2000}
+            duration={5000}
+            force={0.4}
+            onComplete={() => {
+              setConfetti(false);
+              audioRef.current.pause();
+              audioRef.current.onended = null;
+            }}
+            className={styles.confetti2}
+          />
+        </div>
+      )}
       <ToastContainer />
       <BackgroundMusic />
     </div>
