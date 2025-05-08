@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./App.module.scss";
 import BoardLayout from "./components/game-board/BoardLayout";
 import LandingPage from "./components/landing/LandingPage";
-import { AppDispatch, RootState } from "./store";
 import ConfettiExplosion from "react-confetti-explosion";
 import { useEffect, useRef, useState } from "react";
 import Loader from "./components/utilities/Loader";
@@ -17,6 +16,8 @@ import { setGameState } from "./services/helperFunctions";
 import BackgroundMusic from "./components/utilities/BackgroundMusic";
 import VictorySound from "@/assets/sounds/victory.wav";
 import SoundButton from "./components/utilities/SoundButton";
+import { RootState } from "./store/rootReducer";
+import { AppDispatch } from "./store";
 
 function App() {
   const { status } = useSelector((state: RootState) => state.game);
