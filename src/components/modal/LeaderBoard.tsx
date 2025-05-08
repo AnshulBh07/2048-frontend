@@ -1,9 +1,10 @@
 import React from "react";
 import styles from "@/sass/leaderBoardStyles.module.scss";
 import { ILeaderboard } from "@/services/interfaces";
-import { AppDispatch } from "@/store";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { playButtonSound } from "@/services/helperFunctions";
+import { AppDispatch } from "@/store";
+import { RootState } from "@/store/rootReducer";
 
 interface Iprops {
   users: ILeaderboard[];
@@ -26,9 +27,10 @@ const tileColors = new Map([
 
 const LeaderBoard: React.FC<Iprops> = ({ users }) => {
   const dispatch: AppDispatch = useDispatch();
+  const { isMuted } = useSelector((state: RootState) => state.modal);
 
   const handleBackButtonClick = () => {
-    playButtonSound();
+    playButtonSound(isMuted);
     dispatch({ type: "modal/leaderboard", payload: false });
   };
 

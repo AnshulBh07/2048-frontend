@@ -7,7 +7,6 @@ import { useState } from "react";
 import { GiLaurelsTrophy } from "react-icons/gi";
 import { BiSolidRightArrow } from "react-icons/bi";
 import { FaBook } from "react-icons/fa";
-import { AppDispatch, RootState } from "../../store";
 import { useDispatch, useSelector } from "react-redux";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -15,19 +14,22 @@ import ContinueModal from "../modal/GameContinueModal";
 import { playButtonSound } from "@/services/helperFunctions";
 import LeaderboardModal from "../modal/LeaderboardModal";
 import GuideModal from "../modal/GuideModal";
+import { RootState } from "@/store/rootReducer";
+import { AppDispatch } from "@/store";
 
 function LandingPage() {
   const [selected, setSelected] = useState({ idx: 0, val: "4x4" });
   const { gameContinueModal, leaderBoardModal, guideModal } = useSelector(
     (state: RootState) => state.modal
   );
+  const { isMuted } = useSelector((state: RootState) => state.modal);
 
   const navigate = useNavigate();
 
   const dispatch: AppDispatch = useDispatch();
 
   const handleGridSelection = (e: React.FormEvent<HTMLFormElement>) => {
-    playButtonSound();
+    playButtonSound(isMuted);
     e.preventDefault();
 
     dispatch({ type: "game/set_status", payload: "playing" });
@@ -57,7 +59,7 @@ function LandingPage() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    playButtonSound();
+    playButtonSound(isMuted);
     dispatch({ type: "modal/leaderboard", payload: true });
   };
 
@@ -65,7 +67,7 @@ function LandingPage() {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
-    playButtonSound();
+    playButtonSound(isMuted);
     dispatch({ type: "modal/guide", payload: true });
   };
 

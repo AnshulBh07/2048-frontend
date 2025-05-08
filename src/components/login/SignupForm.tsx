@@ -4,7 +4,6 @@ import InputField from "../utilities/InputField";
 // import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "@/store";
 import {
   validateEmail,
   validatePassword,
@@ -14,17 +13,19 @@ import { toast } from "react-toastify";
 import { signinUser } from "@/services/loginRequests";
 import { isAxiosError } from "axios";
 import { playButtonSound } from "@/services/helperFunctions";
+import { RootState } from "@/store/rootReducer";
 
 const SignupForm: React.FC = () => {
   const signupState = useSelector((state: RootState) => state.signup);
   const { username, email, password, confirm_password } = signupState;
+  const { isMuted } = useSelector((state: RootState) => state.modal);
 
   const navigate = useNavigate();
 
   const controller = new AbortController();
 
   const handleFormSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    playButtonSound();
+    playButtonSound(isMuted);
     e.preventDefault();
     // console.log("sign up info is :", signupState);
     // validate here

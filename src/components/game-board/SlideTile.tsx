@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styles from "../../sass/slideTileStyles.module.scss";
 import { calculateValues, decideColorFn } from "../../services/helperFunctions";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
 import { position } from "../../services/interfaces";
+import { RootState } from "@/store/rootReducer";
 
 interface IProps {
   position: position;

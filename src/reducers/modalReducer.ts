@@ -6,6 +6,7 @@ const initialState: IModalState = {
   gameOverModal: false,
   guideModal: false,
   leaderBoardModal: false,
+  isMuted: false,
 };
 
 type actionType = { type: string; payload?: boolean };
@@ -22,6 +23,8 @@ export const modalReducer = (state = initialState, action: actionType) => {
       return { ...state, leaderBoardModal: action.payload as boolean };
     case "modal/guide":
       return { ...state, guideModal: action.payload as boolean };
+    case "modal/mute":
+      return { ...state, isMuted: action.payload as boolean };
     default:
       return state;
   }

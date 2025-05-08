@@ -1,0 +1,46 @@
+@import "./mixins.scss";
+@import "./variables.scss";
+
+.sound_btn {
+  display: grid;
+  place-items: center;
+  height: 3rem;
+  width: 3rem;
+  border-radius: 50%;
+  background-color: white;
+  border: 3px solid $scoreCardBg;
+  padding: 0.12rem;
+  cursor: pointer;
+  scale: 1;
+  transition: scale 1s ease-in-out;
+  position: absolute;
+  right: 8%;
+  top: 8%;
+  z-index: 8;
+
+  .icon {
+    height: 100%;
+    width: 100%;
+    background-color: $scoreCardBg;
+    padding: 0.5rem;
+    border: none;
+    border-radius: 50%;
+    color: white;
+  }
+
+  &:active {
+    scale: 0.98;
+    outline: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+@media screen and (max-width: 22.5em) {
+  .sound_btn {
+    right: 5%;
+    top: 3%;
+  }
+}

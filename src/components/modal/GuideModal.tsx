@@ -1,14 +1,16 @@
 import React from "react";
 import styles from "@/sass/guideModalStyles.module.scss";
-import { AppDispatch } from "@/store";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { playButtonSound } from "@/services/helperFunctions";
+import { AppDispatch } from "@/store";
+import { RootState } from "@/store/rootReducer";
 
 const GuideModal: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
+  const { isMuted } = useSelector((state: RootState) => state.modal);
 
   const handleBackClick = () => {
-    playButtonSound();
+    playButtonSound(isMuted);
     dispatch({ type: "modal/guide", payload: false });
   };
 

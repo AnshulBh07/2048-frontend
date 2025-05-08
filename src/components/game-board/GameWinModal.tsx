@@ -1,7 +1,8 @@
+import { RootState } from "@/store/rootReducer";
 import styles from "../../sass/gameWinModalStyles.module.scss";
 import { useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
 import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/store";
 
 function GameWinModal() {
   const { maxScore } = useSelector((state: RootState) => state.game);

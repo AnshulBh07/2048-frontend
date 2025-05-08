@@ -1,23 +1,26 @@
-import { AppDispatch, RootState } from "@/store";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "@/sass/continueModalStyles.module.scss";
 import { useNavigate } from "react-router-dom";
 import { playButtonSound } from "@/services/helperFunctions";
+import { RootState } from "@/store/rootReducer";
+import { AppDispatch } from "@/store";
 
 const ContinueModal: React.FC = () => {
   const { username } = useSelector((state: RootState) => state.login);
+  const { isMuted } = useSelector((state: RootState) => state.modal);
+
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleYesClick = () => {
-    playButtonSound();
+    playButtonSound(isMuted);
     dispatch({ type: "login/set_music", payload: true });
     navigate("/game");
   };
 
   const handleNoClick = () => {
-    playButtonSound();
+    playButtonSound(isMuted);
     dispatch({ type: "game/reset_full" });
     dispatch({ type: "login/set_music", payload: true });
     dispatch({ type: "modal/game_continue", payload: false });

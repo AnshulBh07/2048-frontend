@@ -4,7 +4,6 @@ import InputField from "../utilities/InputField";
 import { IoCheckbox } from "react-icons/io5";
 import { FcGoogle } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/store";
 import { toast } from "react-toastify";
 import {
   validateEmail,
@@ -16,9 +15,12 @@ import { googleLogin, loginUser } from "@/services/loginRequests";
 import { isAxiosError } from "axios";
 import { CodeResponse, useGoogleLogin } from "@react-oauth/google";
 import { playButtonSound, setGameState } from "@/services/helperFunctions";
+import { RootState } from "@/store/rootReducer";
+import { AppDispatch } from "@/store";
 
 const LoginForm: React.FC = () => {
   const loginState = useSelector((state: RootState) => state.login);
+  const { isMuted } = useSelector((state: RootState) => state.modal);
 
   const { remember, password, email, username } = loginState;
   const dispatch: AppDispatch = useDispatch();
@@ -27,7 +29,7 @@ const LoginForm: React.FC = () => {
   const controller = new AbortController();
 
   const handleFormSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    playButtonSound();
+    playButtonSound(isMuted);
     e.preventDefault();
     // check form validation
     const passwordValidate = validatePassword(password);
@@ -84,7 +86,8 @@ const LoginForm: React.FC = () => {
           type: "login/logged",
           payload: true,
         });
-        dispatch({ type: "login/set_music", payload: true });
+
+        if (!isMuted) dispatch({ type: "login/set_music", payload: true });
         navigate("/");
       }
     } catch (err) {
@@ -119,7 +122,8 @@ const LoginForm: React.FC = () => {
           type: "login/logged",
           payload: true,
         });
-        dispatch({ type: "login/set_music", payload: true });
+
+        if (!isMuted) dispatch({ type: "login/set_music", payload: true });
         navigate("/");
       }
     },

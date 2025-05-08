@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from "react";
 import styles from "../../sass/gameBoardStyles.module.scss";
 import Tile from "./Tile";
 import { useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
 import {
   calculateValues,
   generateNewTile,
@@ -14,6 +13,8 @@ import {
 import { useDispatch } from "react-redux";
 import { position } from "../../services/interfaces";
 import SlideTile from "./SlideTile";
+import { RootState } from "@/store/rootReducer";
+import { AppDispatch } from "@/store";
 
 function GameBoard() {
   const {
@@ -30,6 +31,7 @@ function GameBoard() {
     font_size,
     moves,
   } = useSelector((state: RootState) => state.game);
+  const { isMuted } = useSelector((state: RootState) => state.modal);
 
   const dispatch: AppDispatch = useDispatch();
 
@@ -125,11 +127,11 @@ function GameBoard() {
         row.every((ele, j) => ele === currMatrix[i][j])
       )
     ) {
-      playErrorSound();
+      playErrorSound(isMuted);
       return;
     }
 
-    playSlideTileSound();
+    playSlideTileSound(isMuted);
     const ansTuple = generateNewTile(rows, columns, currMatrix);
 
     dispatch({ type: "game/set_slide", payload: true });
@@ -245,11 +247,11 @@ function GameBoard() {
         row.every((ele, j) => ele === currMatrix[i][j])
       )
     ) {
-      playErrorSound();
+      playErrorSound(isMuted);
       return;
     }
 
-    playSlideTileSound();
+    playSlideTileSound(isMuted);
 
     const ansTuple = generateNewTile(rows, columns, currMatrix);
 
@@ -364,11 +366,11 @@ function GameBoard() {
         row.every((ele, j) => ele === currMatrix[i][j])
       )
     ) {
-      playErrorSound();
+      playErrorSound(isMuted);
       return;
     }
 
-    playSlideTileSound();
+    playSlideTileSound(isMuted);
 
     const ansTuple = generateNewTile(rows, columns, currMatrix);
 
@@ -479,11 +481,11 @@ function GameBoard() {
         row.every((ele, j) => ele === currMatrix[i][j])
       )
     ) {
-      playErrorSound();
+      playErrorSound(isMuted);
       return;
     }
 
-    playSlideTileSound();
+    playSlideTileSound(isMuted);
 
     const ansTuple = generateNewTile(rows, columns, currMatrix);
 

@@ -1,8 +1,9 @@
 import styles from "../../sass/gameOverModalStyles.module.scss";
 import { useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
 import { useDispatch } from "react-redux";
 import { generateStartMatrix } from "../../services/helperFunctions";
+import { RootState } from "@/store/rootReducer";
+import { AppDispatch } from "@/store";
 
 export const GameOverModal = () => {
   const { maxScore, rows, columns, tileWidth, gap } = useSelector(

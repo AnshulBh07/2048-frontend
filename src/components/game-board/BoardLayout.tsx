@@ -6,7 +6,6 @@ import { HiMiniHome } from "react-icons/hi2";
 import { MdOutlineRestartAlt } from "react-icons/md";
 import { FaUndoAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
 import { useDispatch } from "react-redux";
 import {
   generateStartMatrix,
@@ -17,6 +16,8 @@ import GameWinModal from "./GameWinModal";
 import { ExtendedGameState, saveGame } from "@/services/gameRequests";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "@/store";
+import { RootState } from "@/store/rootReducer";
 
 function BoardLayout() {
   const {
@@ -35,6 +36,7 @@ function BoardLayout() {
     positionsArr,
   } = useSelector((state: RootState) => state.game);
   const { email } = useSelector((state: RootState) => state.login);
+  const {isMuted} = useSelector((state:RootState)=>state.modal)
   const dispatch: AppDispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -66,7 +68,7 @@ function BoardLayout() {
     const fnValue = generateStartMatrix(rows, columns);
     dispatch({ type: "game/set_matrix", payload: fnValue[0] });
     dispatch({ type: "game/set_new_tile_coords", payload: fnValue[1] });
-    playButtonSound();
+    playButtonSound(isMuted);
   };
 
   const handleUndoClick = () => {
@@ -75,11 +77,11 @@ function BoardLayout() {
     dispatch({ type: "game/set_undo", payload: false });
     dispatch({ type: "game/set_matrix", payload: prevMatrix });
     dispatch({ type: "game/moves", payload: moves - 1 });
-    playButtonSound();
+    playButtonSound(isMuted);
   };
 
   const handleHomeClick = () => {
-    playButtonSound();
+    playButtonSound(isMuted);
     navigate("/");
   };
 

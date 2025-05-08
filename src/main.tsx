@@ -3,8 +3,9 @@ import App from "./App.tsx";
 import "./index.scss";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { store } from "./store.ts";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistor, store } from "./store/index.ts";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLDivElement
@@ -13,9 +14,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-        <App />
-      </GoogleOAuthProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
+          <App />
+        </GoogleOAuthProvider>
+      </PersistGate>
     </Provider>
   </BrowserRouter>
 );

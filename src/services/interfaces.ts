@@ -80,4 +80,5 @@ export interface IModalState {
   gameOverModal: boolean;
   gameWinModal: boolean;
   gameContinueModal: boolean;
+  isMuted: boolean;
 }

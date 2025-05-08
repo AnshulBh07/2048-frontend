@@ -3,8 +3,9 @@ import { PiTagSimpleFill } from "react-icons/pi";
 import { BsFillKeyFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../store";
 import styles from "@/sass/inputFieldStyles.module.scss";
+import { AppDispatch } from "@/store";
+import { RootState } from "@/store/rootReducer";
 
 interface IProps {
   name: string;

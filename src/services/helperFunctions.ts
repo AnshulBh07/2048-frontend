@@ -287,30 +287,34 @@ export const setGameState = (dispatch: AppDispatch, gameState: IUserInfo) => {
   dispatch({ type: "modal/game_continue", payload: true });
 };
 
-export const playButtonSound = () => {
+export const playButtonSound = (isMuted: boolean) => {
   const audio = new Audio(ButtonSound);
 
   audio.volume = 0.7;
-  audio.play();
+
+  if (!isMuted) audio.play();
 };
 
-export const playSlideTileSound = () => {
+export const playSlideTileSound = (isMuted: boolean) => {
   const audio = new Audio(SlideTileSound);
 
   audio.volume = 1;
-  audio.play();
+
+  if (!isMuted) audio.play();
 };
 
-export const playErrorSound = () => {
+export const playErrorSound = (isMuted: boolean) => {
   const audio = new Audio(Errorsound);
 
   audio.volume = 1;
-  audio.play();
+
+  if (!isMuted) audio.play();
 };
 
-export const playPopupSound = () => {
+export const playPopupSound = (isMuted: boolean) => {
   const audio = new Audio(PopupSound);
 
   audio.volume = 1;
-  audio.play();
+
+  if (!isMuted) audio.play();
 };

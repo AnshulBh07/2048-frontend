@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import styles from "../../sass/tileStyles.module.scss";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
 import {
   calculateValues,
   decideColorFn,
   playPopupSound,
 } from "../../services/helperFunctions";
+import { RootState } from "@/store/rootReducer";
 
 interface IProps {
   value: number | null;
@@ -17,6 +17,7 @@ interface IProps {
 export const Tile: React.FC<IProps> = ({ value, x, y }) => {
   const { tileWidth, newTileCoords, positionsArr, font_size, gap, screen } =
     useSelector((state: RootState) => state.game);
+  const { isMuted } = useSelector((state: RootState) => state.modal);
 
   const isNewTile = () => {
     return newTileCoords.some((coord) => coord[0] === x && coord[1] === y);
@@ -34,7 +35,7 @@ export const Tile: React.FC<IProps> = ({ value, x, y }) => {
   const fnValues = calculateValues(tileWidth, gap, font_size, screen);
 
   useEffect(() => {
-    if (isNewTile()) playPopupSound();
+    if (isNewTile()) playPopupSound(isMuted);
   }, []);
 
   return (

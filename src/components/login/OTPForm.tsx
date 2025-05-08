@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "@/sass/otpFormStyles.module.scss";
 import { useSelector } from "react-redux";
-import { RootState } from "@/store";
 import { resendOtp, verifyOtp } from "@/services/loginRequests";
 import { toast } from "react-toastify";
 import { isAxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import { playButtonSound } from "@/services/helperFunctions";
+import { RootState } from "@/store/rootReducer";
 
 const OTPForm: React.FC = () => {
   const { email } = useSelector((state: RootState) => state.signup);
@@ -14,6 +15,7 @@ const OTPForm: React.FC = () => {
   const [timer, setTimer] = useState<number>(30);
   const [resend, setResend] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { isMuted } = useSelector((state: RootState) => state.modal);
 
   const controller = new AbortController();
 
@@ -65,6 +67,7 @@ const OTPForm: React.FC = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
+    playButtonSound(isMuted)
     // first verify wheteher otp is legit or not at frontend
     const otpStr = otp.join("");
     const regex = /^\d{6}$/;
@@ -105,6 +108,7 @@ const OTPForm: React.FC = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
+    playButtonSound(isMuted)
 
     // make a request to server to resend OTP
     setOtp(new Array(6).fill(""));

@@ -16,6 +16,7 @@ import axios from "axios";
 import { setGameState } from "./services/helperFunctions";
 import BackgroundMusic from "./components/utilities/BackgroundMusic";
 import VictorySound from "@/assets/sounds/victory.wav";
+import SoundButton from "./components/utilities/SoundButton";
 
 function App() {
   const { status } = useSelector((state: RootState) => state.game);
@@ -164,6 +165,7 @@ function App() {
       )}
       <ToastContainer />
       <BackgroundMusic />
+      <SoundButton />
     </div>
   );
 }

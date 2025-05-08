@@ -4,10 +4,11 @@ import track2 from "@/assets/sounds/bg_track2.mp3";
 import track3 from "@/assets/sounds/bg_track3.mp3";
 import track4 from "@/assets/sounds/bg_track4.mp3";
 import { useSelector } from "react-redux";
-import { RootState } from "@/store";
+import { RootState } from "@/store/rootReducer";
 
 const BackgroundMusic: React.FC = () => {
   const { isMusicEnabled } = useSelector((state: RootState) => state.login);
+  const { isMuted } = useSelector((state: RootState) => state.modal);
   const tracks: string[] = [track1, track2, track3, track4]
     .map((track) => new Array(3).fill(track))
     .flat();
@@ -19,7 +20,7 @@ const BackgroundMusic: React.FC = () => {
   useEffect(() => {
     const audio = audioRef.current;
 
-    if (isMusicEnabled) {
+    if (isMusicEnabled && !isMuted) {
       audioRef.current.volume = 0.5;
       audio.src = tracks[currentTrack];
       audio.play();
@@ -35,7 +36,7 @@ const BackgroundMusic: React.FC = () => {
       audio.pause();
       audio.onended = null;
     };
-  }, [currentTrack, isMusicEnabled]);
+  }, [currentTrack, isMusicEnabled, isMuted]);
 
   //   useEffect that triggers when component unmounts
   useEffect(() => {
